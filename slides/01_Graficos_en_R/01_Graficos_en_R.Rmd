@@ -1,0 +1,211 @@
+---
+title: "Programación con R"
+subtitle: "<br/> Marvin J. Quispe Sedano "
+author: "Environmental Data Scientist <br/><br/> <img src='../img/gif-logods.png' alt='envids' width='100' height='100'> <br/>"
+date: "Lima, 2021"
+output:
+  xaringan::moon_reader:
+    css: "../my-theme.css"
+    lib_dir: libs
+    nature:
+      highlightLines: true
+      highlightStyle: solarized-dark
+      countIncrementalSlides: true
+      
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# AGREGAR PAQUETES A UTILIZAR
+
+```
+class: inverse, center, middle
+
+## CLASE 1 
+### CREACIÓN DE GRÁFICOS EN R
+
+---
+
+## Introducción
+
+- R es un entorno y lenguaje de programación ampliamente usado en la ciencia de datos, principalmente en el análisis estadístico.
+- La relación de R con el análisis de datos ambientales se evidencia ampliamente en la gran cantidad de paquetes modulares que se usan con este fin.
+
+<img src='img/r_intro.png' width='70%' height='70%' class='centerimage'>
+
+---
+
+## Objetivo
+
+- El objetivo del presente curso es proporcionar los conocimientos básicos para empezar a trabajar con el lenguaje de programación R, enfocado a su uso como herramienta principal en la gestión y análisis de datos.
+
+<img src='img/ciencia-de-datos.png' width='70%' height='70%' class='centerimage'>
+
+---
+
+## Gráficos con R base
+
+- Al instalar el lenguaje de programación R, se incluyen funciones básicas de manera predeterminada para la creación de gráficos. Sin embargo, estas funciones son limitadas en cuanto a la edición y visualización de resultados.
+- La función **plot()** se usa de manera general para la creación de gráficos
+
+
+<img src='img/grap-r.png' width='60%' height='60%' class='centerimage'>
+
+---
+
+## Barplot
+
+- El gráfico de barras nos muetra la frecuencia con la que se han observado los datos de una variable discreta, donde cada una de las barras es una categoría de la variable.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="60%", fig.align="center"}
+
+# VISUALIZACIÓN DE LOS DATOS
+head(iris,3)
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species)
+
+```
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species, main = "Tipos de especie de Iris",
+     xlab = "Especie", ylab = "Frecuencia", 
+     col = c("royalblue", "skyblue", "blue"))
+
+```
+
+---
+
+- Usando la función **legend()** podemos incluir una leyenda al gráfico.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species, main = "Tipos de especie de Iris",
+     xlab = "Especie", ylab = "Frecuencia", 
+     col = c("royalblue", "skyblue", "blue"))
+
+legend(x = "topright", legend = levels(iris$Species), 
+       fill = c("royalblue", "skyblue", "blue"), 
+       title = "Especies", cex = 0.5)
+
+```
+
+---
+
+## Histograma
+
+- Un histograma nos permite visualizar la distribución de un conjunto de datos numérico, donde cada barra representa el número de veces (frecuencia) en el que se observan los datos dentro de un intervalo definido.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL HISTOGRAMA
+hist(iris$Sepal.Length, main = "Histograma del largo de sépalo",
+     xlab = "Intervalo", ylab = "Frecuencia", 
+     col = c("deepskyblue4"))
+
+```
+
+
+---
+
+## Scatter plot
+
+- El diagrama de dispersión muestra la variación de una variable numérica o la relación entre dos variables numéricas.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL SCATTER PLOT
+plot(iris$Sepal.Length, iris$Petal.Length)
+
+```
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL SCATTER PLOT
+plot(iris$Sepal.Length, iris$Petal.Length, 
+     xlab = "Largo de sépalo" , ylab = "Largo de pétalo",
+     main = "Diagrama de dispersión - LS VS LP",
+     col = c("green", "purple", "blue"))
+
+legend(x = "topright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.5)
+
+```
+
+---
+
+## Boxplot
+
+- Los diagramas de caja nos muetran la distribución de una variable numérica tomando como referencia los cuartiles (intervalos regulares que dividen al conjunto de datos en cuatro partes).
+- Se conoce como rango intercuantil (IQR) a la región comprendida entre el tercer cuartil (0.75) y el primer cuartil (0.25).
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL BOXPLOT
+boxplot(iris)
+
+```
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL BOXPLOT
+plot(x = iris$Species, y = iris$Sepal.Length,
+     col = c("green", "purple", "blue"))
+
+legend(x = "bottomright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.3)
+
+```
+
+
+---
+
+## Exportar gráficos
+
+- Se pueden exportar los gráficos generados en R usando la función que corresponda al formato del archivo de salida (png, jpeg, pdf, tiff, etc.).
+- La función de exportación de gráficos tiene tres argumentos principales: el nombre del archivo, el ancho y el alto.
+
+```{r , echo = TRUE , collapse = TRUE, out.width="80%", fig.align="center"}
+
+#CREACIÓN DEL BOXPLOT
+png(filename = "boxplot-grafico.png", width = 800, height = 600)
+
+plot(x = iris$Species, y = iris$Sepal.Length,
+     col = c("green", "purple", "blue"))
+
+legend(x = "bottomright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.5)
+
+dev.off()
+```
+
+
+
+---
+
+class: inverse, center, middle
+
+# GRACIAS! <br/>  <a href="mailto: marvinjqs@gmail.com"> <img alt="gmail" src="../img/gmail-logo.gif" width='20%' height='50%'> </a> 
+
+
+

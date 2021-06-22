@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Programación con R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Environmental Data Scientist      " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Programación con R
+## <br/> Marvin J. Quispe Sedano
+### Environmental Data Scientist <br/><br/> <img src='../img/gif-logods.png' alt='envids' width='100' height='100'> <br/>
+### Lima, 2021
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://github.com/marvinjonathcn/curso_arcgis_intermedio" target="_blank"&gt; ArcGIS - Nivel Intermedio
+&lt;/a&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+class: inverse, center, middle
+
+## CLASE 1 
+### CREACIÓN DE GRÁFICOS EN R
+
+---
+
+## Introducción
+
+- R es un entorno y lenguaje de programación ampliamente usado en la ciencia de datos, principalmente en el análisis estadístico.
+- La relación de R con el análisis de datos ambientales se evidencia ampliamente en la gran cantidad de paquetes modulares que se usan con este fin.
+
+&lt;img src='img/r_intro.png' width='70%' height='70%' class='centerimage'&gt;
+
+---
+
+## Objetivo
+
+- El objetivo del presente curso es proporcionar los conocimientos básicos para empezar a trabajar con el lenguaje de programación R, enfocado a su uso como herramienta principal en la gestión y análisis de datos.
+
+&lt;img src='img/ciencia-de-datos.png' width='70%' height='70%' class='centerimage'&gt;
+
+---
+
+## Gráficos con R base
+
+- Al instalar el lenguaje de programación R, se incluyen funciones básicas de manera predeterminada para la creación de gráficos. Sin embargo, estas funciones son limitadas en cuanto a la edición y visualización de resultados.
+- La función **plot()** se usa de manera general para la creación de gráficos
+
+
+&lt;img src='img/grap-r.png' width='60%' height='60%' class='centerimage'&gt;
+
+---
+
+## Barplot
+
+- El gráfico de barras nos muetra la frecuencia con la que se han observado los datos de una variable discreta, donde cada una de las barras es una categoría de la variable.
+
+
+```r
+
+# VISUALIZACIÓN DE LOS DATOS
+head(iris,3)
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-2-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+
+```r
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species, main = "Tipos de especie de Iris",
+     xlab = "Especie", ylab = "Frecuencia", 
+     col = c("royalblue", "skyblue", "blue"))
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-3-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+- Usando la función **legend()** podemos incluir una leyenda al gráfico.
+
+
+```r
+
+#CREACIÓN DEL BARPLOT
+plot(iris$Species, main = "Tipos de especie de Iris",
+     xlab = "Especie", ylab = "Frecuencia", 
+     col = c("royalblue", "skyblue", "blue"))
+
+legend(x = "topright", legend = levels(iris$Species), 
+       fill = c("royalblue", "skyblue", "blue"), 
+       title = "Especies", cex = 0.5)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Histograma
+
+- Un histograma nos permite visualizar la distribución de un conjunto de datos numérico, donde cada barra representa el número de veces (frecuencia) en el que se observan los datos dentro de un intervalo definido.
+
+
+```r
+
+#CREACIÓN DEL HISTOGRAMA
+hist(iris$Sepal.Length, main = "Histograma del largo de sépalo",
+     xlab = "Intervalo", ylab = "Frecuencia", 
+     col = c("deepskyblue4"))
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-5-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Scatter plot
+
+- El diagrama de dispersión muestra la variación de una variable numérica o la relación entre dos variables numéricas.
+
+
+```r
+
+#CREACIÓN DEL SCATTER PLOT
+plot(iris$Sepal.Length, iris$Petal.Length)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-6-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+
+```r
+
+#CREACIÓN DEL SCATTER PLOT
+plot(iris$Sepal.Length, iris$Petal.Length, 
+     xlab = "Largo de sépalo" , ylab = "Largo de pétalo",
+     main = "Diagrama de dispersión - LS VS LP",
+     col = c("green", "purple", "blue"))
+
+legend(x = "topright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.5)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-7-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Boxplot
+
+- Los diagramas de caja nos muetran la distribución de una variable numérica tomando como referencia los cuartiles (intervalos regulares que dividen al conjunto de datos en cuatro partes).
+- Se conoce como rango intercuantil (IQR) a la región comprendida entre el tercer cuartil (0.75) y el primer cuartil (0.25).
+
+
+```r
+
+#CREACIÓN DEL BOXPLOT
+boxplot(iris)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-8-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+- Podemos modificar los argumentos de cualquier gráfico generado con la función **plot** para obtener un gráfico más presentable.
+
+
+```r
+
+#CREACIÓN DEL BOXPLOT
+plot(x = iris$Species, y = iris$Sepal.Length,
+     col = c("green", "purple", "blue"))
+
+legend(x = "bottomright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.3)
+```
+
+&lt;img src="01_Graficos_en_R_files/figure-html/unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Exportar gráficos
+
+- Se pueden exportar los gráficos generados en R usando la función que corresponda al formato del archivo de salida (png, jpeg, pdf, tiff, etc.).
+- La función de exportación de gráficos tiene tres argumentos principales: el nombre del archivo, el ancho y el alto.
+
+
+```r
+
+#CREACIÓN DEL BOXPLOT
+png(filename = "boxplot-grafico.png", width = 800, height = 600)
+
+plot(x = iris$Species, y = iris$Sepal.Length,
+     col = c("green", "purple", "blue"))
+
+legend(x = "bottomright", legend = levels(iris$Species), 
+       fill = c("green", "purple", "blue"), 
+       title = "Especies", cex = 0.5)
+
+dev.off()
+```
+
+
+
+---
+
+class: inverse, center, middle
+
+# GRACIAS! &lt;br/&gt;  &lt;a href="mailto: marvinjqs@gmail.com"&gt; &lt;img alt="gmail" src="../img/gmail-logo.gif" width='20%' height='50%'&gt; &lt;/a&gt; 
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "solarized-dark",
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
