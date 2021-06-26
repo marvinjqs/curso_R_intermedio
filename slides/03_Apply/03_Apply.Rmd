@@ -29,7 +29,7 @@ class: inverse, center, middle
 
 ---
 
-## Funciones Apply
+## ¿Qué son las funciones apply()?
 
 - La familia de funciones **apply()** pertenecen a R base, y nos permiten ejecutar lineas de código repetidamente en múltiples fragmentos de datos.
 - Estas funciones nos permiten ejecutar bucles en pocas líneas de código
