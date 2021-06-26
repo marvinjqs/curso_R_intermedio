@@ -36,5 +36,16 @@ R es un entorno y lenguaje de programación ampliamente usado en la ciencia de d
 | &nbsp;  &nbsp;  &nbsp;  &nbsp;• Exportar gráficos |
 | &nbsp;  &nbsp;  &nbsp;  &nbsp;• Gráficos con ggplot2 |
 
+| 🌏 CLASE 5: [LA FAMILIA DE FUNCIONES APPLY()](https://marvinjonathcn.github.io/curso_R_intermedio/slides/03_Apply/03_Apply.html)  &nbsp;  |
+|:---------------------------------------------------------------|
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Introducción |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• ¿Qué son las funciones apply() ? |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función apply() |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función lapply() |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función sapply() |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función vapply() |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función mapply() |
+| &nbsp;  &nbsp;  &nbsp;  &nbsp;• Función tapply() |
+
 
 
