@@ -68,15 +68,15 @@ list_url <- list()
 
 for (i in 1:9) {
   
-  list_url[i] = paste("https://www.senamhi.gob.pe//mapas/mapa-estaciones-2/_dato_esta_tipo02.php?estaciones=472AC278&CBOFiltro=20200",
-               i, "&t_e=M&estado=AUTOMATICA&cod_old=&cate_esta=EMA&alt=247", sep = "")
+  list_url[i] = paste("https://www.senamhi.gob.pe//mapas/mapa-estaciones-2/_dato_esta_tipo02.php?estaciones=112181&CBOFiltro=20200",
+               i, "&t_e=M&estado=AUTOMATICA&cod_old=&cate_esta=EMA&alt=117", sep = "")
   
  }
 
 for (i in 10:12) {
   
-  list_url[i] = paste("https://www.senamhi.gob.pe//mapas/mapa-estaciones-2/_dato_esta_tipo02.php?estaciones=472AC278&CBOFiltro=2020",
-               i, "&t_e=M&estado=AUTOMATICA&cod_old=&cate_esta=EMA&alt=180", sep = "")
+  list_url[i] = paste("https://www.senamhi.gob.pe//mapas/mapa-estaciones-2/_dato_esta_tipo02.php?estaciones=112181&CBOFiltro=2020",
+               i, "&t_e=M&estado=AUTOMATICA&cod_old=&cate_esta=EMA&alt=117", sep = "")
   
 }
 
@@ -135,6 +135,7 @@ plot_missing(df)
 profile_missing(df)
 
 # HISTOGRAMA 
+dev.new()
 plot_histogram(df)
 
 # QQPLOT
@@ -147,18 +148,27 @@ plot_correlation(na.omit(df))
 ggplot(stack(df), aes(x = ind, y = values)) +
   geom_boxplot()
 
+ggplot(df, aes(x = date, y = HUM)) +
+  geom_boxplot()
+
 # SCATTER PLOT
 library(reshape2)
 df_sp <- melt(df[,c(1,2,4)], id.vars = 'date', variable.name = 'Variables')
 
-ggplot(df_sp, aes(date,value, color = Variables)) + 
+ggplot(df_sp, aes(date,value)) + 
   geom_line() + 
-  facet_grid(Variables ~ .)
-   
+  geom_smooth() +
+  facet_grid(Variables ~ .) 
+
+ggplot(df, aes(date,PP)) + 
+  geom_line() + 
+  geom_smooth()  
                                                     
 ######################
 #  LIMPIEZA DE DATOS #
 ######################      
+
+summary(df)
 
 # ELIMINAR LAS FILAS QUE CONTIENEN VALORES NA
 df_complete <- na.omit(df)
@@ -167,19 +177,23 @@ df_complete <- df[complete.cases(df),]
 # COMPLETAR VALORES NA MEDIANTE IMPUTACION MULTIPLE
 library(mice)
 
-df_mice <- mice(df,m=5,maxit=50,meth='rf',seed=500)
+df_mice <- mice(df,m=5,maxit=10,meth='cart',seed=500)
 summary(df_mice)
 df_complete <- complete(df_mice,1)
+df <- df_complete
 
 # ELIMINAR VALORES OUTLIERS UNIVARIABLES MEDIANTE BOXPLOT
 boxplot.stats(df$VEL_V)$out
 out_VEL_V <- boxplot.stats(df$VEL_V)$out
-df2 <- df[-out_VEL_V, ]
+df <- df[!(df$VEL_V %in% out_VEL_V),]
+
 
 # ELIMINAR OUTLIERS MULTIVARIABLES MEDIANTE Z-SCORE
 
-library(mvoutlier)
-result <- mvOutlier(df, qqplot = TRUE, method = "adj.quan") 
+library(MVN)
+result <- mvn(df[,c(2:6)], 
+              mvnTest = "hz", multivariateOutlierMethod = "quan")
+
 
 
 ############################
@@ -193,7 +207,7 @@ timePlot(df, pollutant = c("TEMP", "PP", "HUM"),
          name.pol = c("TEMPERATURA", "PRECIPITACION", "HUMEDAD"), 
          smooth = T,
          xlab = "Tiempo", ylab = "Valores", 
-         main = "DATOS HIDROMETEOROLÓGICOS DE LA ESTACION VON HUMBOLDT - 2020",
+         main = "DATOS HIDROMETEOROLÓGICOS DE LA ESTACION CAMPO DE MARTE - 2020",
          avg.time = "1 day")
 
 # GRAFICAMOS LA CORRELACION ENTRE VARIABLES
@@ -209,7 +223,8 @@ colnames(df)[6] <- "ws"
 
 # GRAFICAMOS LAS ROSAS DE VIENTO
 windRose(df)
-windRose(mydata, type = "month")
+windRose(df, type = "season")
+windRose(df, type = "month")
 
 # GRAFICAMOS LAS SERIES DE TIEMPO CON LOS DATOS DE VIENTO INCLUIDOS
 timePlot(df, pollutant = c("TEMP", "HUM"), 
@@ -221,7 +236,7 @@ timePlot(df, pollutant = c("TEMP", "HUM"),
          avg.time = "1 month")
 
 # GRAFICAMOS LA VARIACION TEMPORAL DE LA TEMPERATURA
-timeVariation(df, pollutant = "TEMP")
+timeVariation(df, pollutant = c("TEMP","HUM"))
 
 # GRAFICAMOS UN CALENDARIO PARA EVALUAR CADA VARIABLE
 calendarPlot(df, pollutant = "TEMP", year = 2020)
