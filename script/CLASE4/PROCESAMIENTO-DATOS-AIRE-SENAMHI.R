@@ -66,6 +66,7 @@ names(df) <- c("date", "PM25")
 
 # ASIGNAR EL FORMATO DE FECHA
 df$date <- as.POSIXct(as.character(df$date), format = "%d/%m/%Y%H:%M")
+write.csv(df, "air-data-campodm.csv", row.names = F)
 
 ####################################
 #  ANALISIS EXPLORATORIO DE DATOS  #

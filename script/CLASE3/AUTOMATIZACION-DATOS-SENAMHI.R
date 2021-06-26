@@ -116,6 +116,7 @@ df <- df[, c(6,1:5)]
 # MODIFICAR LOS NOMBRES DE CADA COLUMNA
 
 colnames(df) <- c("date", "TEMP", "PP", "HUM", "DIR_V", "VEL_V")
+write.csv(df, "data-meteo-campodm.csv", row.names = F)
 
 ####################################
 #  ANALISIS EXPLORATORIO DE DATOS  #
