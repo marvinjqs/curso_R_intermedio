@@ -1,4 +1,3 @@
-
 #################################
 # AUTOMATIZACION Y PROCESAMIENTO DE DATOS DE CALIDAD DE AIRE DEL SENAMHI
 # CURSO: PROGRAMACION CON R
@@ -89,18 +88,20 @@ plot_histogram(df)
 # QQPLOT
 plot_qq(df)
 
+# TIME PLOT
+timePlot(df, pollutant = "PM25",
+         ref.y = list(h = 40, lty = 5),
+         avg.time = "1 day")
+
 # BOXPLOT
 ggplot(df, aes(y = PM25)) +
   geom_boxplot()
 
 # SCATTER PLOT
-
 ggplot(df, aes(x=date, y=PM25)) + 
-  geom_point() +
   geom_line() +
   geom_smooth(method = "loess")
   
  
-
 
 
