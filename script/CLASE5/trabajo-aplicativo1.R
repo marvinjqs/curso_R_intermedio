@@ -69,20 +69,28 @@ ggplot(df, aes(date, humidity)) +
 
 levels(as.factor(df$date_m))
 
-df2 <- df[df$date_m == "Enero-2013",]
-df3 <- df[df$date_m == "Febrero-2013",]
 
+################################
 
-g1 <- ggplot(df2, aes(date, humidity)) +
-  geom_point()+
-  geom_line()
+# IMPLEMENTAR FUNCION PARA GENERAR LOS GRAFICOS
 
-g2 <- ggplot(df3, aes(date, humidity)) +
-  geom_point()+
-  geom_line()
+df_m <- split(df, with(df, interaction(date_m)), drop = TRUE)
+
+f_grafico <- function(x){
+  
+  a <- ggplot(x, aes(x= date, y = humidity)) +
+    geom_point() +
+    geom_line() +
+    geom_smooth()
+  
+  return(a)
+}
+
+graf_list <- lapply(df_m, f_grafico )
 
 library(ggpubr)
-figure <- ggarrange(g1, g2,
+
+figure <- ggarrange(graf_list[[1]],graf_list[[2]],
                     labels = c("01-2013", "02-2013"),
                     ncol = 2)
 figure
