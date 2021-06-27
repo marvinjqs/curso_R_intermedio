@@ -48,6 +48,12 @@ df <- merge(df1, df2, by = "date")
 # CONVERTIR FECHAS
 df$date <- as.POSIXct(df$date, format = "%Y-%m-%d %H:%M:%S")
 
+# COMPLETAR LAS FECHAS FALTANTES CON NA
+library(tidyr)
+df <- df %>%
+  complete(date = seq(min(date), max(date), by = "1 hour"),
+           fill = list(VALOR = NA))
+
 
 ####################################
 #  ANALISIS EXPLORATORIO DE DATOS  #
@@ -71,8 +77,9 @@ plot_histogram(df)
 plot_qq(df)
 
 # TIME PLOT
+library(openair)
 timePlot(df, pollutant = "PM25",
-         ref.y = list(h = 40, lty = 5),
+         ref.y = list(h = 50, lty = 5),
          avg.time = "1 day")
 
 # BOXPLOT
@@ -97,20 +104,27 @@ library(caret)
 preproc1 <- preProcess(df, method = "range")
 norm1 <- predict(preproc1, df)
 
-
+df <- norm1
 smp_size <- floor(0.8 * nrow(df))
 
 set.seed(123)
 train_ind <- sample(seq_len(nrow(df)), size = smp_size)
-train <- mtcars[train_ind, ]
-test <- mtcars[-train_ind, ]
+train <- df[train_ind, ]
+test <- df[-train_ind, ]
 
 
-# train a naive bayes model
-model <- NaiveBayes(Species~., data=data_train)
-# make predictions
-x_test <- data_test[,1:4]
-y_test <- data_test[,5]
+# MODELO DE REGRESION LINEAL MULTIVARIABLE
+model <- lm(HUM~TEMP+VEL_V, data=train)
+summary(model)$r.squared
+
+sqrt(mean(model$residuals^2))
+
+
+# MATRIZ DE CONFUSION
+x_test <- test[,c(3,7)]
+y_test <- test[[5]]
+
 predictions <- predict(model, x_test)
-# summarize results
-confusionMatrix(predictions$class, y_test)
+table <- table(aa, y_test)
+
+confusionMatrix(factor(aa), factor(y_test))
